@@ -1,7 +1,7 @@
 public class EuclideanAlgorithm{
     public static void main(String[] args){
         int num1 = 50;
-        int num2 = 25;
+        int num2 = 3;
         int steps = 0;
         int dividend = num1;
         int divisor = num2;
@@ -10,7 +10,7 @@ public class EuclideanAlgorithm{
         int remainder;
 
         System.out.printf("Finding the greatest common divisor of %d and %d \n", num1, num2);
-        
+
         if(divisor > dividend){
             System.out.println("The inputs would have caused an unnecessary step.");
             int n = divisor;
@@ -34,22 +34,24 @@ public class EuclideanAlgorithm{
         System.out.println("The GCD is " + gcd);
 
         switch(steps){
-        case steps == 1:
+        case 1:
             System.out.println("Only one step was needed!");
             break;
-        case steps == 2:
+        case 2:
             System.out.println("Two steps were taken!");
             break;
-        case steps == 3:
+        case 3:
             System.out.println("This process took three steps");
             break;
-        case default:
+        default:
             System.out.printf("%d steps is a lot of steps!", steps);
             break;
         }
-        
-        boolean pie = true;
-        System.out.printf("I like to eat" + (pie ? "pie" : "poo")); 
 
+        System.out.printf("%d and %d" +(gcd ==1 ? " are relatively prime." : " are not relatively prime."), num1, num2); 
+
+        String myString = "33333";
+        myString.replace("3", "e");
+        System.out.println(myString);
     }
 }
