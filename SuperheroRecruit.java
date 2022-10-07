@@ -54,7 +54,7 @@ public class SuperheroRecruit{
             return "Rejected. Take a look at our sidekick program!";
         }
         totalRecruits--;
-        return this.toString + "Recruit is enlisted to " + station + ".";
+        return this.toString() + "Recruit is enlisted to " + station + ".";
     }
     public int getTotalRecruits(){
         return totalRecruits;

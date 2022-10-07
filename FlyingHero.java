@@ -31,8 +31,6 @@ public class FlyingHero extends SuperheroRecruit {
             return "Rejected. Take a look at our sidekick program!";
         }
         setTotalRecruits();
-        return this.toString + this.name + " has " + this.intelligence + " IQ, runs at " + this.speed + 
-               " miles per hour, and can lift " + this.strength + " pounds. The Power Scaling is " 
-               + this.powerScaling() + ". Recruit is enlisted to " + station + ".";
+        return this.toString() + super.toString() + "Recruit is enlisted to " + station + ".";
     }
 }
