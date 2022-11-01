@@ -43,7 +43,6 @@ public class PoliceStation {
             int count = i;
             for (int j = i - 1; j >= 0; j--) {
                 if (this.suspects.get(count).compareTo(this.suspects.get(j)) < 0) {
-                    Suspect temp = this.suspects.get(count);
                     this.suspects.add(j, this.suspects.get(count));
                     this.suspects.remove(j + 2);
                     count--;
@@ -78,10 +77,24 @@ public class PoliceStation {
         }
         return dupSus;
     }
-    public Suspect findSuspect() {
+    public Suspect findSuspect(Suspect obj) {
         this.removeDuplicates();
         this.sortSuspects();
-        
+        for (int i = 0; i < this.suspects.size(); i++) {
+            if (this.suspects.get(i).compareTo(obj) == 0) {
+                return this.suspects.get(i);
+            }
+        }
+        return null;
+    }
+    public Accomplice findMastermind(Suspect sus) {
+        for (int i = 0; i < this.accomplices.size(); i++) {
+            if (this.accomplices.get(i).getCanCode()
+                && this.accomplices.get(i).getRubberDuck().equals(sus.getRubberDuck())) {
+                return this.accomplices.get(i);
+            }
+        }
+        return null;
     }
     public static void main (String[] args) {
         System.out.println(Color.BLONDE.compareTo(Color.BLONDE));

@@ -57,5 +57,7 @@ public class Suspect extends PersonOfInterest{
         }
         return false;
     }
-
+    public RubberDuck getRubberDuck() {
+        return this.getRubberDuck();
+    }
 }

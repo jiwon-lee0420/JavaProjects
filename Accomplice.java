@@ -45,4 +45,18 @@ public class Accomplice extends PersonOfInterest {
         }
         return false;
     }
+    /**
+     * Returns the rubber duck of the accomplice.
+     * @return this.getRubberDuck().
+     */
+    public RubberDuck getRubberDuck() {
+        return this.getRubberDuck();
+    }
+    /**
+     * Returns whether or not the accomplice can code.
+     * @return this.canCode.
+     */
+    public boolean getCanCode() {
+        return this.canCode;
+    }
 }
