@@ -37,6 +37,12 @@ public class PersonOfInterest implements Comparable<PersonOfInterest>{
                + " miles away holding a " + this.rubberDuck.getColor() + " rubber duck "
                + (this.rubberDuck.getHasHat()? "with ":"without ") + "a hat.";
     }
+    /**
+     * Determines if two POI objects are equal depending on their
+     * hair color, proximity, and rubber duck.
+     * @param obj the object that gets compared.
+     * @return t or f depending on whether the two POI objects are equal.
+     */
     public boolean equals(Object obj) {
         if (obj.getClass().getName().equals("PersonOfInterest")) {
             PersonOfInterest o = (PersonOfInterest) obj;
@@ -46,28 +52,42 @@ public class PersonOfInterest implements Comparable<PersonOfInterest>{
         }
         return false;
     }
+    /**
+     * Returns an int depending on whether or not the two POI's are similar or not.
+     * @param o the POI that gets compared.
+     * @return an int depending on the qualities of the two POI's.
+     */
     public int compareTo(PersonOfInterest o) {
         if (o == null) {
             return -1;
         }
         if (this.proximity == o.proximity) {
-            if (this.hairColor.equals(o.hairColor)) {
-                return 0;
-            } else {
-                return this.hairColor.compareTo(o.hairColor);
-            }
+            return this.hairColor.compareTo(o.hairColor);
+            
         } else if (this.proximity < o.proximity) {
             return -1;
         } else {
             return 1;
         }
     }
+    /**
+     * Returns the hair color of the POI.
+     * @return this.hairColor.
+     */
     public Color getHairColor() {
         return this.hairColor;
     }
+    /**
+     * Returns the proximity of the POI.
+     * @return this.proximity.
+     */
     public int getProximity() {
         return this.proximity;
     }
+    /**
+     * Returns the rubber duck of the POI.
+     * @return this.rubberDuck.
+     */
     public RubberDuck getRubberDuck() {
         return this.rubberDuck;
     }
