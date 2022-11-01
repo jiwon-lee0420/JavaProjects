@@ -3,7 +3,7 @@
  * @author jlee3973
  * @version 1.0
  */
-public class PersonOfInterest implements Comparable<PersonOfInterest>{
+public class PersonOfInterest implements Comparable<PersonOfInterest> {
     private Color hairColor;
     private int proximity;
     private RubberDuck rubberDuck;
@@ -35,14 +35,15 @@ public class PersonOfInterest implements Comparable<PersonOfInterest>{
     public String toString() {
         return "A POI with " + this.hairColor + " hair was last seen " + this.proximity
                + " miles away holding a " + this.rubberDuck.getColor() + " rubber duck "
-               + (this.rubberDuck.getHasHat()? "with ":"without ") + "a hat.";
+               + (this.rubberDuck.getHasHat() ? "with " : "without ") + "a hat.";
     }
     /**
-     * Determines if two POI objects are equal depending on their
-     * hair color, proximity, and rubber duck.
-     * @param obj the object that gets compared.
-     * @return t or f depending on whether the two POI objects are equal.
+     * Determines whether or not two POI's are equal or not
+     * depending on hair color, proximity, and rubber duck.
+     * @param obj The object that gets compared to a POI.
+     * @return t or f depending on whether or not they are equal.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj.getClass().getName().equals("PersonOfInterest")) {
             PersonOfInterest o = (PersonOfInterest) obj;
@@ -53,17 +54,23 @@ public class PersonOfInterest implements Comparable<PersonOfInterest>{
         return false;
     }
     /**
-     * Returns an int depending on whether or not the two POI's are similar or not.
-     * @param o the POI that gets compared.
-     * @return an int depending on the qualities of the two POI's.
+     * Compares two POI's together and returns an int
+     * depending on the differences in instance variables.
+     * @param o the POI that gets compared to an instance of
+     * another POI.
+     * @return an int depending on the differences in
+     * instance variables.
      */
     public int compareTo(PersonOfInterest o) {
         if (o == null) {
             return -1;
         }
         if (this.proximity == o.proximity) {
-            return this.hairColor.compareTo(o.hairColor);
-            
+            if (this.hairColor.equals(o.hairColor)) {
+                return 0;
+            } else {
+                return this.hairColor.compareTo(o.hairColor);
+            }
         } else if (this.proximity < o.proximity) {
             return -1;
         } else {
@@ -71,22 +78,22 @@ public class PersonOfInterest implements Comparable<PersonOfInterest>{
         }
     }
     /**
-     * Returns the hair color of the POI.
-     * @return this.hairColor.
+     * Returns hair color of POI.
+     * @return this.hairColor
      */
     public Color getHairColor() {
         return this.hairColor;
     }
     /**
-     * Returns the proximity of the POI.
-     * @return this.proximity.
+     * Returns proximity of POI.
+     * @return this.proximity
      */
     public int getProximity() {
         return this.proximity;
     }
     /**
-     * Returns the rubber duck of the POI.
-     * @return this.rubberDuck.
+     * Returns rubber duck of POI.
+     * @return this.rubberDuck
      */
     public RubberDuck getRubberDuck() {
         return this.rubberDuck;

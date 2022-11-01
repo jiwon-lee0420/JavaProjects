@@ -4,8 +4,8 @@
  * @version 1.0
  */
 public class RubberDuck {
-    private Color color;
-    private boolean hasHat;
+    private final Color color;
+    private final boolean hasHat;
     /**
      * Constructor that takes in a Color and boolean
      * and instantiates instance variables.
@@ -28,7 +28,7 @@ public class RubberDuck {
      * @return a sentence form of a RubberDuck object.
      */
     public String toString() {
-        return "a " + this.color + " rubber duck " + (hasHat? "with " : "without ") + "a hat.";
+        return "a " + this.color + " rubber duck " + (hasHat ? "with " : "without ") + "a hat.";
     }
     /**
      * Determines if two RubberDuck objects are equal.
