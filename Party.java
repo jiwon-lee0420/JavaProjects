@@ -67,18 +67,37 @@ public class Party {
         pw.close();
         return true;
     }
-    public static boolean getQuest(String quest, ArrayList<PartyMember> pm) throws FileNotFoundException{
+    public static boolean getQuest(String quest, ArrayList<PartyMember> pm) throws FileNotFoundException, QuestNotFoundException {
         File dir = new File(".");
         File q = new File(dir.getPath() + "/quest.csv");
         if (q == null || !q.canRead()) {
             throw new FileNotFoundException("Quest file not found!");
         }
+        ArrayList<String> quests = new ArrayList<String>();
         Scanner scan = new Scanner(q);
+        PrintWriter pw = new PrintWriter(q);
         while (scan.hasNextLine()) {
             if (scan.nextLine().isEmpty())
                 continue;
-            
+            quests.add(scan.nextLine());
         }
+        for (int i = 0; i < quests.size(); ++i) {
+            if (quests.get(i).split(":")[1].equals(quest)) {
+                int questLvl = Integer.parseInt(quests.get(i).split(":")[2].trim().split(",")[1]);
+                int reward = Integer.parseInt(quests.get(i).split(":")[2].trim().split(",")[2]);
+                if (questLvl < Party.partyQuestLevel(pm)) {
+                    System.out.printf("Success! Your party gained %d coins. This calls for a trip to the Tavern!", reward);
+                    quests.remove(i);
+                    for (int j = 0; j < pm.size(); ++j) {
+                        pw.println(quests.get(j)); //figure out how to overwrite a file!!!!!!   
+                    }
+                    return true;
+                } else {
+                    System.out.println("Failure... Your party was defeated. Better Luck Next Time!");
+                }
+            }
+        }
+        throw new QuestNotFoundException("That quest isn't in the list of quests...");
     }
     private static int partyQuestLevel(ArrayList<PartyMember> pm) {
         if (pm == null || pm.size() == 0)
