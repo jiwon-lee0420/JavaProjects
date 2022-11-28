@@ -71,6 +71,12 @@ public class Train<T> implements List<T> {
         return sb.toString();
     }
 
+    /**
+     * Inserts the element at the end of the list.
+     *
+     * @param element the element we are adding to the list.
+     * @throws IllegalArgumentException if the passed in element is null.
+     */
     @Override
     public void add(T element) throws IllegalArgumentException {
         TrainCar<T> last = this.engine;
@@ -83,6 +89,16 @@ public class Train<T> implements List<T> {
         this.size++;
     }
 
+    /**
+     * Inserts the element at the specified index of the list.
+     * If an element exists at that index, the element in the list should come after the new element being added.
+     *
+     * @param index the index to add the element at.
+     * @param element the element we are adding to the list.
+     * @throws IndexOutOfBoundsException if the passed in index is invalid. index == size() is valid.
+     *                                   In the event both arguments are invalid, this exception should be thrown.
+     * @throws IllegalArgumentException if the passed in element is null.
+     */
     @Override
     public void add(int index, T element) throws IndexOutOfBoundsException, IllegalArgumentException {
         TrainCar<T> last = this.engine;
@@ -91,43 +107,139 @@ public class Train<T> implements List<T> {
         }
         TrainCar<T> temp = last.getNextCar();
         last.setNextCar(new TrainCar<T>(element, temp));
+        this.size++;
     }
 
+    /**
+     * Removes the element at the front of the list and returns it.
+     *
+     * @return the removed element from the front of the list.
+     * @throws NoSuchElementException if the list is empty.
+     */
     @Override
     public T remove() throws NoSuchElementException {
-        return null; // FIXME
+        if (this.engine == null) {
+            throw new NoSuchElementException("There is no engine to remove.");
+        } else {
+            T oldEngineCargo = this.engine.getCargo();
+            this.engine = this.engine.getNextCar();
+            this.size--;
+            return oldEngineCargo;
+        }
     }
 
+    /**
+     * Removes the element at the specified index and returns it.
+     *
+     * @param index the index of the element to be removed.
+     * @return the removed element at the specified index of the list.
+     * @throws NoSuchElementException if the list is empty.
+     * @throws IndexOutOfBoundsException if the passed in index is invalid.
+     */
     @Override
     public T remove(int index) throws NoSuchElementException, IndexOutOfBoundsException {
-        return null; // FIXME
+        if (this.engine == null) {
+            throw new NoSuchElementException("There is no train car to remove.");
+        } else if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Cannot remove the train car at this index.");
+        } else {
+            TrainCar<T> previousRemovedCar = this.engine;
+            for (int i = 0; i < index - 1; i++) {
+                previousRemovedCar = previousRemovedCar.getNextCar();
+            }
+            TrainCar<T> removedCar = previousRemovedCar.getNextCar();
+            previousRemovedCar.setNextCar(removedCar.getNextCar());
+            this.size--;
+            return removedCar.getCargo();
+        }
     }
 
+    /**
+     * Removes the first occurrence of the specified element from the list and returns it.
+     *
+     * @param element the element to be removed.
+     * @return the element that is removed from the list. Do not return the passed in element!
+     * @throws IllegalArgumentException if the passed in element is null.
+     * @throws NoSuchElementException if the passed in element is not in the list.
+     */
     @Override
     public T remove(T element) throws IllegalArgumentException, NoSuchElementException {
-        return null; // FIXME
+        if (this.engine == null) {
+            throw new NoSuchElementException("There is no element to remove.");
+        } else if (element == null) {
+            throw new IllegalArgumentException("Passed in element is null");
+        }
+        int count = 0;
+        TrainCar<T> checkCar = this.engine;
+        while (!(checkCar.getCargo().equals(element))) {
+            count++;
+            checkCar = checkCar.getNextCar();
+        }
+        TrainCar<T> previousRemovedCar = this.engine;
+        for (int i = 0; i < count - 1; i++) {
+            previousRemovedCar = previousRemovedCar.getNextCar();
+        }
+        TrainCar<T> removedCar = previousRemovedCar.getNextCar();
+        previousRemovedCar.setNextCar(removedCar.getNextCar());
+        this.size--;
+        return removedCar.getCargo();
     }
 
     @Override
     public T set(int index, T element) throws IndexOutOfBoundsException, IllegalArgumentException {
-        return null; // FIXME
+        if (index < 0 || index > this.size) {
+            throw new IndexOutOfBoundsException("Index is out of bounds.");
+        } else if (element == null) {
+            throw new IllegalArgumentException("Passed in element is null.");
+        }
+        TrainCar<T> setCar = this.engine;
+        for (int i = 0; i < index; i++) {
+            setCar = setCar.getNextCar();
+        }
+        T oldCargo = setCar.getCargo();
+        setCar.setCargo(element);
+        return oldCargo;
     }
 
     @Override
     public T get(int index) throws IndexOutOfBoundsException {
-        return null; // FIXME
+        if (index < 0 || index > this.size) {
+            throw new IndexOutOfBoundsException("Index is out of bounds.");
+        }
+        TrainCar<T> getCar = this.engine;
+        for (int i = 0; i < index; i++) {
+            getCar.getNextCar();
+        }
+        return getCar.getCargo();
     }
 
     @Override
     public boolean contains(T element) throws IllegalArgumentException {
-        return false; // FIXME
+        if (element == null) {
+            throw new IllegalArgumentException("Passed in element is null.");
+        }
+        TrainCar<T> containCar = this.engine;
+        for (int i = 0; i < this.size; i++) {
+            if (containCar.getCargo().equals(element)) {
+                return true;
+            }
+        }
+        return false;
     }
 
+    /**
+     * Clears the list.
+     */
     @Override
     public void clear() {
-        // FIXME
+        this.engine = null;
     }
 
+    /**
+     * Checks if the list is empty.
+     *
+     * @return whether the list is empty
+     */
     @Override
     public boolean isEmpty() {
         if (this.engine == null) {
@@ -136,6 +248,11 @@ public class Train<T> implements List<T> {
         return false;
     }
 
+    /**
+     * Returns the number of elements in the list.
+     *
+     * @return the number of elements in the list.
+     */
     @Override
     public int size() {
         int count = 0;
