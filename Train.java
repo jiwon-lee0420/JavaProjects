@@ -1,19 +1,29 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-// TODO JAVADOC
+/**
+ * The Train class represents a train with train cars that hold cargo.
+ * This class implements the given List interface.
+ * @author jlee3973
+ * @version 1.0
+ * @param <T> the generic that is used throughout the Train class.
+ */
 public class Train<T> implements List<T> {
-
     private TrainCar<T> engine;
     private int size;
-
-    // TODO JAVADOC
+    /**
+     * Default constructor that sets engine to null
+     * and size to 0.
+     */
     public Train() {
         engine = null;
         size = 0;
     }
-
-    // TODO JAVADOC
+    /**
+     * Constructor of the train obect that takes in
+     * an array of cargo, and creates a train with the
+     * array of cargo.
+     * @param cargoArray the array of cargo.
+     */
     public Train(T[] cargoArray) {
         if (cargoArray == null) {
             throw new IllegalArgumentException("cargoArray cannot be null");
@@ -25,13 +35,18 @@ public class Train<T> implements List<T> {
             add(cargo); // keep adding to end
         }
     }
-
-    // TODO JAVADOC
+    /**
+     * Returns the engine of the train.
+     * @return this.engine.
+     */
     public TrainCar<T> getEngine() {
         return engine;
     }
-
-    // TODO JAVADOC
+    /**
+     * Represents the train in form of an array
+     * of the cargo.
+     * @return an array of the cargo in order of the train.
+     */
     public T[] toArray() {
         int count = 0;
         TrainIterator<T> iterator = new TrainIterator<T>(this);
@@ -46,7 +61,11 @@ public class Train<T> implements List<T> {
         }
         return result;
     }
-
+    /**
+     * Returns the train in String form that
+     * represents the train's cars and cargo.
+     * @return the String form of the train.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(
@@ -79,14 +98,22 @@ public class Train<T> implements List<T> {
      */
     @Override
     public void add(T element) throws IllegalArgumentException {
-        TrainCar<T> last = this.engine;
-        TrainIterator<T> iterator = new TrainIterator<T>(this);
-        while (iterator.hasNext()) {
-            last = last.getNextCar();
+        if (element == null) {
+            throw new IllegalArgumentException("Passed in element is null.");
         }
-        TrainCar<T> newCar = new TrainCar<T>(element);
-        last.setNextCar(newCar);
-        this.size++;
+        if (this.isEmpty()) {
+            this.engine = new TrainCar<T>(element);
+            this.size++;
+        } else {
+            TrainCar<T> last = this.engine;
+            TrainIterator<T> iterator = new TrainIterator<T>(this);
+            while (iterator.hasNext()) {
+                last = last.getNextCar();
+            }
+            TrainCar<T> newCar = new TrainCar<T>(element);
+            last.setNextCar(newCar);
+            this.size++;
+        }
     }
 
     /**
@@ -101,13 +128,23 @@ public class Train<T> implements List<T> {
      */
     @Override
     public void add(int index, T element) throws IndexOutOfBoundsException, IllegalArgumentException {
-        TrainCar<T> last = this.engine;
-        for (int i = 0; i < index; i++) {
-            last = last.getNextCar();
+        if (index < 0 || index > this.size) {
+            throw new IndexOutOfBoundsException("Index out of bounds.");
+        } else if (element == null) {
+            throw new IllegalArgumentException("Passed in element is null.");
         }
-        TrainCar<T> temp = last.getNextCar();
-        last.setNextCar(new TrainCar<T>(element, temp));
-        this.size++;
+        if (this.engine == null) {
+            this.engine = new TrainCar<T>(element);
+            this.size++;
+        } else {
+            TrainCar<T> last = this.engine;
+            for (int i = 0; i < index; i++) {
+                last = last.getNextCar();
+            }
+            TrainCar<T> temp = last.getNextCar();
+            last.setNextCar(new TrainCar<T>(element, temp));
+            this.size++;
+        }
     }
 
     /**
@@ -120,6 +157,10 @@ public class Train<T> implements List<T> {
     public T remove() throws NoSuchElementException {
         if (this.engine == null) {
             throw new NoSuchElementException("There is no engine to remove.");
+        } else if (this.size == 1) {
+            this.engine = null;
+            this.size--;
+            return this.engine.getCargo();
         } else {
             T oldEngineCargo = this.engine.getCargo();
             this.engine = this.engine.getNextCar();
@@ -184,7 +225,16 @@ public class Train<T> implements List<T> {
         this.size--;
         return removedCar.getCargo();
     }
-
+    /**
+     * Replaces the element at a specific index with the passed in element.
+     *
+     * @param index the index of the element to be replaced.
+     * @param element the element to replace the existing element at the passed in index with.
+     * @return the element that was replaced.
+     * @throws IndexOutOfBoundsException if the passed in index is invalid.
+     *                                   In the event both arguments are invalid, this exception should be thrown.
+     * @throws IllegalArgumentException if the passed in element is null.
+     */
     @Override
     public T set(int index, T element) throws IndexOutOfBoundsException, IllegalArgumentException {
         if (index < 0 || index > this.size) {
@@ -200,7 +250,14 @@ public class Train<T> implements List<T> {
         setCar.setCargo(element);
         return oldCargo;
     }
-
+    /**
+     * Returns the element at the specified index.
+     * You must implement this method using an Iterator!
+     *
+     * @param index the index of the element to get
+     * @return the element at the specified index.
+     * @throws IndexOutOfBoundsException if the passed in index is invalid.
+     */
     @Override
     public T get(int index) throws IndexOutOfBoundsException {
         if (index < 0 || index > this.size) {
@@ -212,7 +269,14 @@ public class Train<T> implements List<T> {
         }
         return getCar.getCargo();
     }
-
+    /**
+     * Checks if the list contains a specific element.
+     * You must implement this method using an Iterator!
+     *
+     * @param element the element to search for in the list.
+     * @return whether the list contains the element.
+     * @throws IllegalArgumentException if the passed in element is null.
+     */
     @Override
     public boolean contains(T element) throws IllegalArgumentException {
         if (element == null) {
@@ -233,6 +297,7 @@ public class Train<T> implements List<T> {
     @Override
     public void clear() {
         this.engine = null;
+        this.size = 0;
     }
 
     /**
@@ -265,6 +330,6 @@ public class Train<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null; // FIXME
+        return new TrainIterator<T>(this); // FIXME
     }
 }
